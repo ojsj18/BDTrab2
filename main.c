@@ -17,32 +17,25 @@ Implementação da função main() do trabalho 2 de Banco de Dados.
 int main(void)
 {
 
-	/* CRIANDO 2 OPERACOES */
-	int id = 1;
-	int tempoChegada = 0;
-	char tipo = 'R';
-	char atributo = 'X';
-
+	int id;
+	int tempoChegada;
+	char tipo;
+	char atributo;
+	scanf("%d %d %c %c",&id,&tempoChegada,&tipo,&atributo);
 	tipoLista *lista_teste = novaLista(novaOperacao(id, tempoChegada, tipo, atributo));
+	
 
-	tipoOperacao *operacao = (tipoOperacao *) lista_teste->item;
+	while (scanf("%d %d %c %c",&id,&tempoChegada,&tipo,&atributo) != EOF)
+	{
+		adicionaLista (lista_teste, novaOperacao(id, tempoChegada, tipo, atributo));
+		//verifica se chegou um id diferente
 
-	printf("%d, %d, %c, %c\n",operacao->id, operacao->tempoChegada, operacao->tipo, operacao->atributo);
+	}
 
-	id = 2;
-	tempoChegada = 1;
-	tipo = 'W';
-	atributo = 'X';
-
-	adicionaLista (lista_teste, novaOperacao(id, tempoChegada, tipo, atributo));
-
-	operacao = (tipoOperacao *) lista_teste->proximo->item;
-
-	printf("%d, %d, %c, %c\n",operacao->id, operacao->tempoChegada, operacao->tipo, operacao->atributo);
+	imprimeOperacao(lista_teste);
+	
 
 	/* COLOCANDO NUMA LISTA DE TRANSACAO */
 	
-
-
 	return 0;
 }

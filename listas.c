@@ -1,7 +1,7 @@
 /*
 Autores: Giovani G Marciniak e Ovídio Junior
 GRR20182981
-GRR2018####
+GRR20182667
 
 Arquivo: listas.c
 Modificado em 14/07/2021
@@ -83,4 +83,17 @@ void adicionaLista(tipoLista* lista, void* item) {
   	return;
 }
 
-/*imprimeLista() */
+void imprimeOperacao(tipoLista *lista){
+
+	tipoOperacao *operacao;
+
+	while (lista != NULL)
+	{
+		operacao = (tipoOperacao *) lista->item;
+		printf("%d ",operacao->id);
+		printf("%d ",operacao->tempoChegada);
+		printf("%c ",operacao->tipo);
+		printf("%c\n",operacao->atributo);
+		lista=lista->proximo;
+	}
+}
