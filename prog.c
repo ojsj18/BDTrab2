@@ -86,4 +86,5 @@ int main(void) {
 
   }
 
+  scanf("%d %d %c %c\n",x,y,z,a);
 }
