@@ -16,23 +16,33 @@ Implementação da função main() do trabalho 2 de Banco de Dados.
 
 int main(void)
 {
+
+	/* CRIANDO 2 OPERACOES */
 	int id = 1;
 	int tempoChegada = 0;
 	char tipo = 'R';
 	char atributo = 'X';
 
-	listaOperacoes *lista_op_teste = novaListaOperacao(novaOperacao(id, tempoChegada, tipo, atributo));
+	tipoLista *lista_teste = novaLista(novaOperacao(id, tempoChegada, tipo, atributo));
 
-	printf("%d, %d, %c, %c\n",lista_op_teste->op->id, lista_op_teste->op->tempoChegada, lista_op_teste->op->tipo, lista_op_teste->op->atributo);
+	tipoOperacao *operacao = (tipoOperacao *) lista_teste->item;
+
+	printf("%d, %d, %c, %c\n",operacao->id, operacao->tempoChegada, operacao->tipo, operacao->atributo);
 
 	id = 2;
 	tempoChegada = 1;
 	tipo = 'W';
 	atributo = 'X';
 
-	addOperacao(lista_op_teste, novaOperacao(id, tempoChegada, tipo, atributo));
+	adicionaLista (lista_teste, novaOperacao(id, tempoChegada, tipo, atributo));
 
-	printf("%d, %d, %c, %c\n",lista_op_teste->proximo->op->id, lista_op_teste->proximo->op->tempoChegada, lista_op_teste->proximo->op->tipo, lista_op_teste->proximo->op->atributo);
+	operacao = (tipoOperacao *) lista_teste->proximo->item;
+
+	printf("%d, %d, %c, %c\n",operacao->id, operacao->tempoChegada, operacao->tipo, operacao->atributo);
+
+	/* COLOCANDO NUMA LISTA DE TRANSACAO */
+	
+
 
 	return 0;
 }

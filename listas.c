@@ -29,22 +29,35 @@ tipoOperacao* novaOperacao(int id, int tempoChegada, char tipo, char atributo)
 }
 
 tipoTransacao* novaTransacao(tipoOperacao* operacao) {
-	tipoTransacao *transacao = (tipoTransacao) malloc(sizeof(tipoTransacao));
+	tipoTransacao *transacao = (tipoTransacao*) malloc(sizeof(tipoTransacao));
 
 	transacao->id = operacao->id;
-	transacao->operacoes = novaListaOperacao(operacao);
+	transacao->operacoes = novaLista(operacao);
 	transacao->arestas = NULL; //arrumar aqui em seguida
 
 }
 
-/*tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao) {
+tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id) {
+	tipoEscalonamento *escalonamento = (tipoEscalonamento*) malloc(sizeof(tipoEscalonamento));
 	
-}*/
+	escalonamento->transacoes = novaLista(transacao);
+	escalonamento->transacoesAtivas = novaLista(transacao);
+	escalonamento->id = id;
 
-listaOperacoes* novaListaOperacao(tipoOperacao* operacao) {
-	listaOperacoes *lista = malloc(sizeof(listaOperacoes));
+	escalonamento->todasOperacoes = novaLista(transacao->operacoes->item);
 
-	lista->op = operacao;
+	tipoLista *aux = transacao->operacoes->proximo;
+	while (aux != NULL) {
+		adicionaLista(aux, aux->item);
+		aux = aux->proximo;
+	}
+}
+
+
+tipoLista* novaLista(void* item) {
+	tipoLista *lista = (tipoLista*) malloc(sizeof(tipoLista));
+
+	lista->item = item;
 
     lista->proximo = NULL;
   	lista->anterior = NULL;
@@ -52,16 +65,16 @@ listaOperacoes* novaListaOperacao(tipoOperacao* operacao) {
   	return lista;
 }
 
-void addOperacao(listaOperacoes* lista, tipoOperacao* operacao) {
+void adicionaLista(tipoLista* lista, void* item) {
 	/*ESTÁ ADICIONANDO NO FIM, TEM QUE IMPLEMENTAR A ADIÇÃO ORDENADA POR TEMPO*/
 
 	while (lista->proximo!=NULL) {
 		lista = lista->proximo;
 	}
 
-	listaOperacoes *novo = malloc(sizeof(listaOperacoes));
+	tipoLista *novo = malloc(sizeof(tipoLista));
 
-	novo->op = operacao;
+	novo->item = item;
 
     novo->proximo = NULL;
   	novo->anterior = lista;
@@ -70,24 +83,4 @@ void addOperacao(listaOperacoes* lista, tipoOperacao* operacao) {
   	return;
 }
 
-listaTransacoes* novaListaTransacao(tipoTransacao* transacao) {
-	listaTransacoes *lista = malloc(sizeof(listaTransacoes));
-	lista->t = transacao;
-	lista->proximo = NULL;
-	lista->anterior = NULL;
-
-	return lista;
-}
-
-
-/*
-novaListaEscalonamento()
-
-addTransacao()
-addEscalonamento()
-
-/*freeListaOperacao()
-freeListaTransacao()
-freeListaEscalonamento() depois kkk
-
-imprimeLista() */
+/*imprimeLista() */

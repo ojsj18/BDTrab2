@@ -9,6 +9,15 @@ Descrição:
 Arquivo contém todas as estruturas e funções relacionadas com as listas utilizadas no trabalho.
 */
 
+// LISTAS
+typedef struct tipoLista
+{
+    void *item;
+
+    struct tipoLista *proximo;
+    struct tipoLista *anterior;
+} tipoLista;
+
 // DEFINIÇÃO DOS TIPOS (OPERAÇÃO, TRANSAÇÃO E ESCALONAMENTO)
 typedef struct tipoOperacao
 {
@@ -18,58 +27,25 @@ typedef struct tipoOperacao
     char atributo;               // atributo que será lido/escrito
 } tipoOperacao;
 
-typedef struct listaOperacoes
-{
-    tipoOperacao *op;
-
-    struct listaOperacoes *proximo;
-    struct listaOperacoes *anterior;
-} listaOperacoes;
-
 typedef struct tipoTransacao
 {
     int id;                         // identificador da transação 
-    listaOperacoes *operacoes;       // lista com todas as operacoes da transacao
-    listaTransacoes *arestas;        // arestas das transacoes (será usado para testar seriabilidade)
+    tipoLista *operacoes;           // lista com todas as operacoes da transacao
+    tipoLista *arestas;             // arestas das transacoes (será usado para testar seriabilidade)
 } tipoTransacao;
 
 typedef struct tipoEscalonamento
 {
-    int id;                                 // identificador do escalonamento
-    listaTransacoes *transacoes;             // todas as transacoes de um escalonamento 
-    listaTransacoes *transacoesAtivas;       // apenas as transacoes ativas, ou seja sem commit (usado para saber quando termina um escalonamento)
-    listaOperacoes *todasOperacoes;          // todas as operacoes de todas as transacoes do escalonamento, em ordem de chegada
+    int id;                             // identificador do escalonamento
+    tipoLista *transacoes;              // todas as transacoes de um escalonamento 
+    tipoLista *transacoesAtivas;        // apenas as transacoes ativas, ou seja sem commit (usado para saber quando termina um escalonamento)
+    tipoLista *todasOperacoes;          // todas as operacoes de todas as transacoes do escalonamento, em ordem de chegada
 } tipoEscalonamento;
 
-// LISTAS
-/*typedef struct lista
-{
-    void *item;
 
-    void *proximo;
-    void *anterior;
-} lista;*/
-
-typedef struct listaTransacoes
-{
-    tipoTransacao *t;
-
-    struct listaTransacoes *proximo;
-    struct listaTransacoes *anterior;
-} listaTransacoes;
-
-typedef struct listaEscalonamento
-{
-    tipoEscalonamento *s;
-
-    struct listaEscalonamento *proximo;
-    struct listaEscalonamento *anterior;
-} listaEscalonamento;
-
-
-listaOperacoes* novaListaOperacao(tipoOperacao* operacao);
 tipoOperacao* novaOperacao(int id, int tempoChegada, char tipo, char atributo);
-void addOperacao(listaOperacoes* lista, tipoOperacao* operacao);
-
 tipoTransacao* novaTransacao(tipoOperacao* operacao);
-listaTransacoes* novaListaTransacao(tipoTransacao* transacao);
+tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id);
+
+tipoLista* novaLista(void* item);
+void adicionaLista(tipoLista* lista, void* item);
