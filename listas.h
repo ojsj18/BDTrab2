@@ -50,3 +50,6 @@ tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id);
 tipoLista* novaLista(void* item);
 void adicionaLista(tipoLista* lista, void* item);
 void imprimeOperacao(tipoLista *lista);
+void imprimeTransacao(tipoTransacao *lista);
+void imprimeListaTransacao(tipoLista *lista);
+tipoTransacao* verificaLista(tipoLista* lista, int id);

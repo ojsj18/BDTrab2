@@ -35,6 +35,8 @@ tipoTransacao* novaTransacao(tipoOperacao* operacao) {
 	transacao->operacoes = novaLista(operacao);
 	transacao->arestas = NULL; //arrumar aqui em seguida
 
+	//tava sem o return
+	return transacao;
 }
 
 tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id) {
@@ -96,4 +98,39 @@ void imprimeOperacao(tipoLista *lista){
 		printf("%c\n",operacao->atributo);
 		lista=lista->proximo;
 	}
+}
+void imprimeTransacao(tipoTransacao *transacao){
+
+	tipoLista* operacao=transacao->operacoes;
+	printf(" Transação: %d \n",transacao->id);
+	imprimeOperacao(operacao);
+}
+
+void imprimeListaTransacao(tipoLista *lista){
+	
+	tipoTransacao* transacao;
+
+	while (lista != NULL)
+	{
+		transacao = (tipoTransacao *) lista->item;
+		imprimeTransacao(transacao);
+		lista=lista->proximo;
+	}
+
+}
+
+//procuro algo na lista retorna o ponteiro se encontrar e null se não
+tipoTransacao* verificaLista(tipoLista* lista, int id){
+
+	tipoTransacao* aux;
+
+	while (lista != NULL)
+	{
+		aux= (tipoTransacao*)lista->item;
+		if(aux->id==id){
+			return lista->item;
+		}
+		lista=lista->proximo;
+	}
+	return NULL;
 }
