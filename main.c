@@ -36,6 +36,7 @@ int main(void)
 	tipoTransacao *aux= lista_transacao->item;
 
 	tipoEscalonamento *escalonamento = novoEscalonamento(transacao,s);
+	tipoLista *lista_escalonamento = novaLista(escalonamento);
 	contador++;
 	
 /* COLOCANDO NUMA LISTA DE TRANSACAO  */
@@ -69,22 +70,16 @@ int main(void)
 			adicionaLista(lista_transacao,novaTransacao(operacao));
 			contador++;
 		}
-		//cria uma aresta olhando pro anterior
 
+		//cria uma aresta olhando pro anterior
 		if(operacao->atributo==auxop->atributo && (operacao->tipo =='W' ||auxop->tipo== 'W' )){ 
 			//printf("cria aresta entre T(%d) e T(%d) \n");
 		} 
 
-		//se o id for diferente eu aumento o contador de transações participantes do escalonamento
-		//caso eu leia um commit eu reduzo o numero de transações participantes do escalonamento
-		//caso eu chegue a 0 transaçoes participantes eu posso começar a verificar as arestas
 	}
 
 	//imprimeOperacao(lista_operacao);
 	imprimeListaTransacao(lista_transacao);
-	
-
-	
-	
+		
 	return 0;
 }
