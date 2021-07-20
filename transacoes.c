@@ -18,7 +18,9 @@ Funções relacionadas aos algoritmos de detecção de conflitos de escalonament
 /* Funções Auxiliares */
 void criaArestas(tipoLista *transacoes) 
 {
-	/*Ignorar se as arestas estão prontas*/
+	
+
+
 }
 
 int testaCicloGrafo (tipoLista *transacoes) 
@@ -40,7 +42,7 @@ int comparaVisaoEquivalente(tipoLista *s1, tipoLista *s2)
 int testeSerialidade (tipoLista *transacoes)
 {
 
-	criaArestas(transacoes);
+	//criaArestas(transacoes);
 
 	return testaCicloGrafo(transacoes);
 

@@ -1,7 +1,7 @@
 /*
 Autores: Giovani G Marciniak e Ovídio Junior
 GRR20182981
-GRR2018####
+GRR20182667
 
 Arquivo: main.c
 Modificado em 14/07/2021
@@ -74,6 +74,7 @@ int main(void)
 		//cria uma aresta olhando pro anterior
 		if(operacao->atributo==auxop->atributo && (operacao->tipo =='W' ||auxop->tipo== 'W' )){ 
 			//printf("cria aresta entre T(%d) e T(%d) \n");
+			criaArestas(transacao);
 		} 
 
 	}
