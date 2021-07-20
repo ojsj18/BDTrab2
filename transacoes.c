@@ -48,7 +48,7 @@ int testeSerialidade (tipoLista *transacoes)
 
 }
 
-int testeVisaoEquivalente (tipoEscalonamento *escalonamento)
+int testeVisaoEquivalente (tipoLista *transacoes)
 {
 	tipoLista *ordemTransacoes;
 	tipoLista *operacoesSerial;

@@ -38,7 +38,6 @@ typedef struct tipoEscalonamento
 {
     int id;                             // identificador do escalonamento
     tipoLista *transacoes;              // todas as transacoes de um escalonamento 
-    //tipoLista *transacoesAtivas;        // apenas as transacoes ativas, ou seja sem commit (usado para saber quando termina um escalonamento)
     tipoLista *todasOperacoes;          // todas as operacoes de todas as transacoes do escalonamento, em ordem de chegada
 } tipoEscalonamento;
 

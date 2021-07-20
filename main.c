@@ -43,20 +43,8 @@ int main(void)
 
 	while (scanf("%d %d %c %c",&tempoChegada,&id,&tipo,&atributo) != EOF)
 	{
-		auxop = operacao;
+		//auxop = operacao;
 		operacao= novaOperacao(id, tempoChegada, tipo, atributo);
-
-		if (tipo=='C')
-		{
-			commits++;
-
-			if(commits==contador){
-				printf("escalonamento %d\n",s);
-				s++;
-				contador=0;
-				commits=0;
-			}
-		}
 		
 		adicionaLista (lista_operacao,operacao);
 
@@ -71,11 +59,26 @@ int main(void)
 			contador++;
 		}
 
-		//cria uma aresta olhando pro anterior
-		if(operacao->atributo==auxop->atributo && (operacao->tipo =='W' ||auxop->tipo== 'W' )){ 
+		if (tipo=='C')
+		{
+			commits++;
+
+			if(commits==contador){
+				printf("escalonamento %d\n",s);
+				//verficar escalonamento
+				testeSerialidade (lista_transacao);
+				testeVisaoEquivalente (lista_transacao);
+
+				s++;
+				contador=0;
+				commits=0;
+			}
+		}
+		//cria uma aresta olhando para as  anteriores
+		/*if(operacao->atributo==auxop->atributo && (operacao->tipo =='W' ||auxop->tipo== 'W' )){ 
 			//printf("cria aresta entre T(%d) e T(%d) \n");
 			criaArestas(transacao);
-		} 
+		} */
 
 	}
 

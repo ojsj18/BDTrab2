@@ -43,7 +43,7 @@ tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id) {
 	tipoEscalonamento *escalonamento = (tipoEscalonamento*) malloc(sizeof(tipoEscalonamento));
 	
 	escalonamento->transacoes = novaLista(transacao);
-	escalonamento->transacoesAtivas = novaLista(transacao);
+	//escalonamento->transacoesAtivas = novaLista(transacao);
 	escalonamento->id = id;
 
 	escalonamento->todasOperacoes = novaLista(transacao->operacoes->item);
