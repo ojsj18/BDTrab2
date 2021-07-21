@@ -29,6 +29,31 @@ int testaCicloGrafo (tipoLista *transacoes)
 	return 1;
 }
 
+tipoLista *CriaEscalonamentoSerial(tipoLista *transacoes, int n_transacoes, int n_trocas)
+{
+	if (n_trocas <= 0)
+		return transacoes;
+
+	tipoLista *novaOrdem = copiaLista(transacoes);
+	tipoLista *atual = NULL;
+
+	while (n_trocas > 0)
+	{
+		atual = novaOrdem;
+
+		for (int i; i<n_transacoes; i++)
+		{
+			trocaItemLista(atual, atual->prox);
+			n_trocas--;
+
+			if (n_trocas <= 0) break;
+		}
+
+		n_transacoes--;
+	}
+	return novaOrdem;
+}
+
 int comparaVisaoEquivalente(tipoLista *s1, tipoLista *s2)
 {
 	
@@ -76,14 +101,14 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 	return 1;
 }
 
-int testeVisaoEquivalente (tipoLista *transacoes)
+int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes)
 {
 	tipoLista *ordemTransacoes;
 	tipoLista *operacoesSerial;
 
 	/* WHILE TODAS AS POSSIBILIDADES
 		operacoesSerial = criaEscalonamentoSerial(ordemTransacoes);
-		if (!comparaVisaoEquivalente(transacoes->todasOperacoes, operacoesSerial));
+		if (!comparaVisaoEquivalente(transacoes, operacoesSerial));
 			return 0;
 	*/
 	return 1;
