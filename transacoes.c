@@ -13,7 +13,7 @@ Funções relacionadas aos algoritmos de detecção de conflitos de escalonament
 #include <string.h>
 #include <stdlib.h>
 #include "listas.h"
-#include <transacoes.h>
+#include "transacoes.h"
 
 /* Funções Auxiliares */
 void criaArestas(tipoLista *transacoes) 
@@ -25,12 +25,7 @@ void criaArestas(tipoLista *transacoes)
 
 int testaCicloGrafo (tipoLista *transacoes) 
 {
-
-}
-
-tipoLista *criaEscalonamentoSerial(ordemTransacoes)
-{
-
+	return 1;
 }
 
 int comparaVisaoEquivalente(tipoLista *s1, tipoLista *s2)
@@ -41,11 +36,36 @@ int comparaVisaoEquivalente(tipoLista *s1, tipoLista *s2)
 /* Funções Principais */
 int testeSerialidade (tipoLista *transacoes)
 {
+	tipoLista* auxlista= transacoes;
+	tipoTransacao* auxtransacao = auxlista->item;
+	tipoLista* auxlistaoperacao = auxtransacao->operacoes;
+	tipoOperacao* auxoperacao = auxlistaoperacao->item;
+	
+	while (auxlista != NULL)
+	{
+		while (auxoperacao != NULL)
+		{
+			if (auxoperacao->tipo == 'W')
+			{
+				//printf("%d %d %c %c \n",auxoperacao->tempoChegada,auxoperacao->id,auxoperacao->tipo,auxoperacao->atributo);
+				printf("tipo escrita \n");
+			}
+			auxlistaoperacao= auxlistaoperacao->proximo;
 
-	//criaArestas(transacoes);
-
+			if (auxlistaoperacao != NULL){
+				auxoperacao =  auxlistaoperacao->item;
+			}
+			else{
+				auxoperacao = NULL;
+			}	
+		}
+	auxlista = auxlista->proximo;
+	if (auxlista != NULL){
+		auxtransacao= auxlista->item;
+		auxlistaoperacao = auxtransacao->operacoes;
+	}
+	}	
 	return testaCicloGrafo(transacoes);
-
 }
 
 int testeVisaoEquivalente (tipoLista *transacoes)
@@ -53,10 +73,10 @@ int testeVisaoEquivalente (tipoLista *transacoes)
 	tipoLista *ordemTransacoes;
 	tipoLista *operacoesSerial;
 
-	/* WHILE TODAS AS POSSIBILIDADES*/
+	/* WHILE TODAS AS POSSIBILIDADES
 		operacoesSerial = criaEscalonamentoSerial(ordemTransacoes);
-		if (!comparaVisaoEquivalente(escalonamento->todasOperacoes, operacoesSerial));
+		if (!comparaVisaoEquivalente(transacoes->todasOperacoes, operacoesSerial));
 			return 0;
-
+	*/
 	return 1;
 }

@@ -92,8 +92,8 @@ void imprimeOperacao(tipoLista *lista){
 	while (lista != NULL)
 	{
 		operacao = (tipoOperacao *) lista->item;
-		printf("%d ",operacao->id);
 		printf("%d ",operacao->tempoChegada);
+		printf("%d ",operacao->id);
 		printf("%c ",operacao->tipo);
 		printf("%c\n",operacao->atributo);
 		lista=lista->proximo;

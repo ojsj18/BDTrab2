@@ -13,6 +13,8 @@ Implementação da função main() do trabalho 2 de Banco de Dados.
 #include <string.h>
 #include <stdlib.h>
 #include "listas.h"
+#include "transacoes.h"
+
 
 int main(void)
 {
@@ -49,41 +51,45 @@ int main(void)
 		adicionaLista (lista_operacao,operacao);
 
 		//verifica se chegou um id diferente
+		//printf("%d %d %c %c \n",tempoChegada,id,tipo,atributo);
 		aux = verificaLista(lista_transacao,id);
 
 		if(aux != NULL){
 			adicionaLista(aux->operacoes,operacao);
 		}
 		else{
-			adicionaLista(lista_transacao,novaTransacao(operacao));
-			contador++;
+			if (lista_transacao == NULL)
+			{
+				transacao = novaTransacao(operacao);
+				lista_transacao = novaLista(transacao);
+				contador++;
+			}
+			else
+			{
+				adicionaLista(lista_transacao,novaTransacao(operacao));
+				contador++;
+			}	
 		}
 
 		if (tipo=='C')
 		{
 			commits++;
-
 			if(commits==contador){
-				printf("escalonamento %d\n",s);
+				printf("escalonamento %d\n \n",s);
+				//imprimeListaTransacao(lista_transacao);
 				//verficar escalonamento
 				testeSerialidade (lista_transacao);
 				testeVisaoEquivalente (lista_transacao);
-
 				s++;
 				contador=0;
 				commits=0;
+				lista_transacao = NULL;
 			}
 		}
-		//cria uma aresta olhando para as  anteriores
-		/*if(operacao->atributo==auxop->atributo && (operacao->tipo =='W' ||auxop->tipo== 'W' )){ 
-			//printf("cria aresta entre T(%d) e T(%d) \n");
-			criaArestas(transacao);
-		} */
-
 	}
-
+	printf("\n");
 	//imprimeOperacao(lista_operacao);
-	imprimeListaTransacao(lista_transacao);
+	//imprimeListaTransacao(lista_transacao);
 		
 	return 0;
 }
