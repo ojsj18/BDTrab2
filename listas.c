@@ -69,7 +69,7 @@ tipoLista* novaLista(void* item) {
 
 void adicionaLista(tipoLista* lista, void* item) {
 	/*ESTÁ ADICIONANDO NO FIM, TEM QUE IMPLEMENTAR A ADIÇÃO ORDENADA POR TEMPO*/
-
+	//talvez implementar criar lista caso null
 	while (lista->proximo!=NULL) {
 		lista = lista->proximo;
 	}

@@ -1,0 +1,28 @@
+	tipoLista* auxlista= transacoes;
+	tipoTransacao* auxtransacao;
+	tipoLista* auxlistaoperacao;
+	tipoOperacao * auxoperacao;
+    
+    while (auxlista != NULL)
+	{
+		auxtransacao = auxlista->item;
+		auxlistaoperacao = auxtransacao->operacoes;
+		auxoperacao = auxlistaoperacao->item;
+
+		while (auxlistaoperacao != NULL)
+		{
+			if (auxoperacao->tipo == 'W')
+			{
+				printf("tipo escrita | Tempo de chegada : %d \n", auxoperacao->tempoChegada);
+				//criaArestas();
+				//aqui inicia a verificação
+
+			}
+			auxlistaoperacao = auxlistaoperacao->proximo;
+			if (auxlistaoperacao != NULL)
+			{
+				auxoperacao = auxlistaoperacao->item;
+			}	
+		}	
+		auxlista = auxlista->proximo;
+	}

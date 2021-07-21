@@ -48,8 +48,15 @@ int main(void)
 		//auxop = operacao;
 		operacao= novaOperacao(id, tempoChegada, tipo, atributo);
 		
-		adicionaLista (lista_operacao,operacao);
-
+		if (lista_operacao == NULL)
+		{
+			lista_operacao = novaLista(operacao);
+		}
+		else
+		{
+			adicionaLista (lista_operacao,operacao);
+		}
+		
 		//verifica se chegou um id diferente
 		//printf("%d %d %c %c \n",tempoChegada,id,tipo,atributo);
 		aux = verificaLista(lista_transacao,id);
@@ -78,12 +85,13 @@ int main(void)
 				printf("escalonamento %d\n \n",s);
 				//imprimeListaTransacao(lista_transacao);
 				//verficar escalonamento
-				testeSerialidade (lista_transacao);
+				testeSerialidade (lista_transacao,lista_operacao);
 				testeVisaoEquivalente (lista_transacao);
 				s++;
 				contador=0;
 				commits=0;
 				lista_transacao = NULL;
+				lista_operacao = NULL;
 			}
 		}
 	}

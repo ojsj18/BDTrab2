@@ -16,10 +16,11 @@ Funções relacionadas aos algoritmos de detecção de conflitos de escalonament
 #include "transacoes.h"
 
 /* Funções Auxiliares */
-void criaArestas(tipoLista *transacoes) 
+void criaArestas(tipoTransacao *t1,tipoTransacao* t2) 
 {
-	
-
+	printf("id: %d \n", t1->id);
+	printf("id: %d\n", t2->id);
+	printf("\n");
 
 }
 
@@ -34,38 +35,45 @@ int comparaVisaoEquivalente(tipoLista *s1, tipoLista *s2)
 }
 
 /* Funções Principais */
-int testeSerialidade (tipoLista *transacoes)
+int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 {
-	tipoLista* auxlista= transacoes;
-	tipoTransacao* auxtransacao = auxlista->item;
-	tipoLista* auxlistaoperacao = auxtransacao->operacoes;
-	tipoOperacao* auxoperacao = auxlistaoperacao->item;
-	
-	while (auxlista != NULL)
-	{
-		while (auxoperacao != NULL)
-		{
-			if (auxoperacao->tipo == 'W')
-			{
-				//printf("%d %d %c %c \n",auxoperacao->tempoChegada,auxoperacao->id,auxoperacao->tipo,auxoperacao->atributo);
-				printf("tipo escrita \n");
-			}
-			auxlistaoperacao= auxlistaoperacao->proximo;
+	tipoOperacao * auxop = linhaTempo->item;
+	tipoOperacao * anterior = NULL;
+	tipoOperacao * proximo = NULL;
 
-			if (auxlistaoperacao != NULL){
-				auxoperacao =  auxlistaoperacao->item;
+	while (linhaTempo != NULL)
+	{
+		if (auxop->tipo == 'W')
+		{
+			if (linhaTempo->anterior != NULL)
+			{
+				anterior = linhaTempo->anterior->item;
+				if (anterior->tipo == 'W' ||anterior->tipo == 'R' ){
+					printf("escrita depois de escrita ou leitura \n");
+					criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,anterior->id));
+				}
 			}
-			else{
-				auxoperacao = NULL;
+			else if (linhaTempo->proximo != NULL)
+			{
+				proximo = linhaTempo->proximo->item;
+				if (proximo->tipo == 'R')
+				{
+					printf("escrita antes de leitura \n");
+					criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,proximo->id));
+				}		
 			}	
 		}
-	auxlista = auxlista->proximo;
-	if (auxlista != NULL){
-		auxtransacao= auxlista->item;
-		auxlistaoperacao = auxtransacao->operacoes;
+		linhaTempo= linhaTempo->proximo;
+		if (linhaTempo != NULL)
+		{
+			auxop = linhaTempo->item;
+		}
+		
 	}
-	}	
-	return testaCicloGrafo(transacoes);
+	imprimeOperacao(linhaTempo);
+
+
+	return 1;
 }
 
 int testeVisaoEquivalente (tipoLista *transacoes)
@@ -79,4 +87,24 @@ int testeVisaoEquivalente (tipoLista *transacoes)
 			return 0;
 	*/
 	return 1;
+}
+
+int testeescrita(tipoLista* operacoes){
+	
+	tipoOperacao* operacao= operacoes->item;
+	while (operacoes != NULL)
+	{
+		if(operacao->tipo = 'W'){
+			return 1;
+		}
+		if (operacoes != NULL)
+		{
+			operacoes=operacoes->proximo;
+			if (operacoes != NULL)
+			{
+				operacao = operacoes->item;
+			}
+		}
+	}
+	return 0;
 }
