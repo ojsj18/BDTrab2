@@ -31,7 +31,6 @@ int main(void)
 
 	tipoOperacao *operacao= novaOperacao(id, tempoChegada, tipo, atributo);
 	tipoLista *lista_operacao = novaLista(operacao);
-	tipoOperacao *auxop;
 	
 	tipoTransacao *transacao = novaTransacao(operacao);
 	tipoLista *lista_transacao = novaLista(transacao);
@@ -90,13 +89,13 @@ int main(void)
 				{
 					printf(" SS");
 				}
-				if (testeVisaoEquivalente (lista_transacao)== 1)
+				if (testeVisaoEquivalente (lista_transacao, contador, lista_operacao)== 1)
 				{
 					printf(" NV\n");
 				}
 				else
 				{
-					printf("SV\n");
+					printf(" SV\n");
 				}
 				
 				s++;

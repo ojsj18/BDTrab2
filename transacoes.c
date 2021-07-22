@@ -121,23 +121,40 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 	tipoOperacao *operacao;
 	tipoOperacao *percorredor_op;
 
-	tipoLista *aux_serial = serial;
-	tipoLista *aux_transacao = aux_serial->item;
+	tipoTransacao *transacao;
+
+	tipoLista *aux_serial;
+	tipoLista *aux_transacao;
 	tipoLista *aux_operacoes = operacoes;
 	tipoLista *percorredor;
+	tipoLista *operacoes_serial = NULL;
 
 	// Transforma a lista de transações em uma lista de operações:
-	tipoLista *operacoes_serial = novaLista(aux_transacao->item);
-	aux_transacao = aux_transacao->proximo;
-	while (aux_serial != NULL) {
-		while (aux_transacao != NULL) {
-			adicionaLista(operacoes_serial, aux_transacao->item);
+	//aux_transacao = (tipoLista*) aux_serial->item; // recebe a primeira transacao
+	//transacao = (tipoTransacao*) aux_serial->item;
+
+	aux_serial = serial;
+	while (aux_serial != NULL)
+	{
+		transacao = (tipoTransacao*) aux_serial->item;	
+		aux_transacao = transacao->operacoes;
+
+		while (aux_transacao != NULL)
+		{
+			if (operacoes_serial == NULL)
+			{
+				operacoes_serial = novaLista(aux_transacao->item);
+			}
+
+			else
+			{
+				adicionaLista(operacoes_serial, aux_transacao->item);
+			}
+
 			aux_transacao = aux_transacao->proximo;
 		}
 		aux_serial = aux_serial->proximo;
-		aux_transacao = aux_serial->item;
 	}
-
 
 	// Percorre o escalonamento original para verificar leituras e escritas
 	while (aux_operacoes != NULL)
@@ -247,6 +264,9 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 				{
 					percorredor_op = (tipoOperacao*) percorredor->item;
 
+					//imprimeOperacao(percorredor);
+					//printf("AAAAAAAA");
+
 					if ((percorredor_op->tipo == 'W')&&(percorredor_op->atributo == operacao->atributo))
 					{
 						if (percorredor_op->id == operacao->id)
@@ -259,6 +279,7 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 				}
 			}
 		}
+		aux_operacoes = aux_operacoes->proximo;
 	}
 
 	return 1;
@@ -270,8 +291,8 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 {
 	tipoLista *auxlista = linhaTempo;
 	tipoOperacao * auxop = auxlista->item;
-	tipoOperacao * anterior = NULL;
-	tipoOperacao * proximo = NULL;
+	//tipoOperacao * anterior = NULL;
+	//tipoOperacao * proximo = NULL;
 	int id;
 	int id2;
 
@@ -304,8 +325,7 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 
 int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes, tipoLista *operacoes)
 {
-	printf("TESTE VISAO EQUIVALENTE\n");
-	imprimeListaTransacao(transacoes);
+	//imprimeListaTransacao(transacoes);
 
 	int max_visoes = n_transacoes;
 	int aux_fatorial = n_transacoes-1;
@@ -314,18 +334,13 @@ int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes, tipoLista *o
 		max_visoes *= aux_fatorial;
 		aux_fatorial--;
 	}
-	printf("max_visoes: %d\n", max_visoes);
 
 	tipoLista *nova = NULL;
 	for (int i = 0; i<max_visoes; i++) {
 		nova = CriaEscalonamentoSerial(transacoes, n_transacoes, i);
-		printf(">>>ORDEM NUMERO %d\n", i);
-		imprimeListaTransacao(nova);
 		if (comparaVisaoEquivalente(operacoes, nova))
 			return 1;
 	}
-
-	printf("Saiu da Visão\n");
 	return 0;
 }
 
@@ -344,10 +359,10 @@ int achaescrita(tipoLista* operacoes,tipoOperacao* w){
 
 	while (listaoperacoes != NULL)
 	{
-		if(operacao->tipo = 'W' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo = 'W') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
-		if(operacao->tipo = 'R' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo = 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
 		if (listaoperacoes != NULL)
@@ -374,7 +389,7 @@ int achaleitura(tipoLista* operacoes,tipoOperacao* w){
 	tipoLista* listaoperacoes = operacoes;
 	while (listaoperacoes != NULL)
 	{
-		if(operacao->tipo = 'R' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo = 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
 
