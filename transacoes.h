@@ -1,3 +1,14 @@
+/*
+Autores: Giovani G Marciniak e Ovídio Junior
+GRR20182981
+GRR20182667
+
+Arquivo: listas.c
+Modificado em 22/07/2021
+Descrição:
+Funções relacionadas aos algoritmos de detecção de conflitos de escalonamento de transações concorrentes.
+*/
+
 void criaArestas(tipoTransacao *t1,tipoTransacao* t2);
 int testaCicloGrafo (tipoLista *transacoes) ;
 

@@ -4,7 +4,7 @@ GRR20182981
 GRR20182667
 
 Arquivo: listas.c
-Modificado em 14/07/2021
+Modificado em 22/07/2021
 Descrição:
 Implementação das funções relacionadas com as listas utilizadas no trabalho.
 */

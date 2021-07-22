@@ -4,7 +4,7 @@ GRR20182981
 GRR20182667
 
 Arquivo: transacoes.c
-Modificado em 14/07/2021
+Modificado em 22/07/2021
 Descrição:
 Funções relacionadas aos algoritmos de detecção de conflitos de escalonamento de transações concorrentes.
 */
@@ -266,9 +266,6 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 				{
 					percorredor_op = (tipoOperacao*) percorredor->item;
 
-					//imprimeOperacao(percorredor);
-					//printf("AAAAAAAA");
-
 					if ((percorredor_op->tipo == 'W')&&(percorredor_op->atributo == operacao->atributo))
 					{
 						if (percorredor_op->id == operacao->id)
@@ -293,8 +290,6 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 {
 	tipoLista *auxlista = linhaTempo;
 	tipoOperacao * auxop = auxlista->item;
-	//tipoOperacao * anterior = NULL;
-	//tipoOperacao * proximo = NULL;
 	int id;
 	int id2;
 
@@ -307,12 +302,10 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 			if (id != -1)
 			{
 				criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,id));
-				//printf("criar aresta de escrita\n");
 			}
 			if (id2 != -1)
 			{
 				criaArestas(verificaLista(transacoes,id2),verificaLista(transacoes,auxop->id));
-				//printf("criar aresta de leitura \n");
 			}
 		}
 		auxlista = auxlista->proximo;
@@ -327,7 +320,6 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 
 int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes, tipoLista *operacoes)
 {
-	//imprimeListaTransacao(transacoes);
 
 	int max_visoes = n_transacoes;
 	int aux_fatorial = n_transacoes-1;

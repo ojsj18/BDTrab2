@@ -1,10 +1,10 @@
 /*
 Autores: Giovani G Marciniak e Ovídio Junior
 GRR20182981
-GRR2018####
+GRR20182667
 
 Arquivo: listas.h
-Modificado em 14/07/2021
+Modificado em 22/07/2021
 Descrição:
 Arquivo contém todas as estruturas e funções relacionadas com as listas utilizadas no trabalho.
 */
