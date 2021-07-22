@@ -43,3 +43,5 @@ void imprimeOperacao(tipoLista *lista);
 void imprimeTransacao(tipoTransacao *lista);
 void imprimeListaTransacao(tipoLista *lista);
 tipoTransacao* verificaLista(tipoLista* lista, int id);
+tipoLista *copiaLista(tipoLista *original);
+void trocaItemLista(tipoLista *elemento1, tipoLista *elemento2);
