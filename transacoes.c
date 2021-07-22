@@ -18,8 +18,8 @@ Funções relacionadas aos algoritmos de detecção de conflitos de escalonament
 /* Funções Auxiliares */
 void criaArestas(tipoTransacao *t1,tipoTransacao* t2) 
 {
-	//verificar se já aponta preciso fazer
-	printf("aresta de %d para %d \n",t1->id,t2->id);
+	//verificar se já aponta (preciso fazer)
+	//printf("aresta de %d para %d \n",t1->id,t2->id);
 	if (t1->id != t2->id)
 	{
 		if (t1->arestas == NULL)
@@ -32,29 +32,27 @@ void criaArestas(tipoTransacao *t1,tipoTransacao* t2)
 		}
 	}
 }
-
+//recebe os ids dos pais e em recursividade procura alguem nos filhos que aponte para o id pai
 int percorreAresta(tipoLista* arestas, int id){
 	if (arestas == NULL)
 	{
 		return 0;
 	}
+
 	tipoTransacao* aux = arestas->item;
-	tipoLista* aux2 = aux->arestas;
 	int achou= 0;
-	tipoTransacao* proximo;
 
 	while (arestas != NULL)
 	{	
-		if (aux2!= NULL)
+		if (aux->id == id )
 		{
-			proximo = aux2->item;
-			if (aux->id == id || proximo->id == id)
-			{
-				return 1;
-			}
+			return 1;
+		}
+		else
+		{
+			achou = percorreAresta(aux->arestas,id);
 		}
 		
-		achou = percorreAresta(aux->arestas,aux->id);
 		arestas= arestas->proximo;
 		if (arestas != NULL)
 		{
@@ -64,6 +62,7 @@ int percorreAresta(tipoLista* arestas, int id){
 	return achou;
 }
 
+//Recebe a lista com todas as transacoes Pais, e envia para suas arestas filhas seus ids
 int testaCicloGrafo (tipoLista *transacoes) 
 {
 
@@ -104,6 +103,7 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 	int id;
 	int id2;
 
+//percorre a linha do Tempo procurando um Write, quando encontrado verifica criterios de seriabilidade
 	while (auxlista != NULL)
 	{	
 		if (auxop->tipo == 'W'){
@@ -112,12 +112,12 @@ int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 			if (id != -1)
 			{
 				criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,id));
-				printf("criar aresta de escrita\n");
+				//printf("criar aresta de escrita\n");
 			}
 			if (id2 != -1)
 			{
 				criaArestas(verificaLista(transacoes,id2),verificaLista(transacoes,auxop->id));
-				printf("criar aresta de leitura \n");
+				//printf("criar aresta de leitura \n");
 			}
 		}
 		auxlista = auxlista->proximo;

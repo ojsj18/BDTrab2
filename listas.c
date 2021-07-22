@@ -103,8 +103,8 @@ void imprimeOperacao(tipoLista *lista){
 void imprimeTransacao(tipoTransacao *transacao){
 
 	tipoLista* operacao=transacao->operacoes;
-	printf(" Transação: %d \n",transacao->id);
-	imprimeOperacao(operacao);
+	printf("%d,",transacao->id);
+	//imprimeOperacao(operacao);
 }
 
 void imprimeListaTransacao(tipoLista *lista){
@@ -114,7 +114,8 @@ void imprimeListaTransacao(tipoLista *lista){
 	while (lista != NULL)
 	{
 		transacao = (tipoTransacao *) lista->item;
-		imprimeTransacao(transacao);
+		printf("%d,",transacao->id);
+		//imprimeTransacao(transacao);
 		lista=lista->proximo;
 	}
 
