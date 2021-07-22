@@ -37,17 +37,15 @@ int main(void)
 	tipoLista *lista_transacao = novaLista(transacao);
 	tipoTransacao *aux= lista_transacao->item;
 
-	tipoEscalonamento *escalonamento = novoEscalonamento(transacao,s);
-	tipoLista *lista_escalonamento = novaLista(escalonamento);
 	contador++;
 	
 /* COLOCANDO NUMA LISTA DE TRANSACAO  */
 
 	while (scanf("%d %d %c %c",&tempoChegada,&id,&tipo,&atributo) != EOF)
 	{
-		//auxop = operacao;
 		operacao= novaOperacao(id, tempoChegada, tipo, atributo);
-		
+
+		//se iniciou um novo escalonamento criar uma nova lista de operação	
 		if (lista_operacao == NULL)
 		{
 			lista_operacao = novaLista(operacao);
@@ -57,8 +55,7 @@ int main(void)
 			adicionaLista (lista_operacao,operacao);
 		}
 		
-		//verifica se chegou um id diferente
-		//printf("%d %d %c %c \n",tempoChegada,id,tipo,atributo);
+		//verifica se chegou um id diferente para criar as transacoes
 		aux = verificaLista(lista_transacao,id);
 
 		if(aux != NULL){
@@ -78,15 +75,30 @@ int main(void)
 			}	
 		}
 
+		//monitora quando se fecha os commits,
+		//quando esse numero fecha na mesma qt de transacoes sacabou o escalonamento
 		if (tipo=='C')
 		{
 			commits++;
 			if(commits==contador){
-				printf("escalonamento %d\n \n",s);
-				//imprimeListaTransacao(lista_transacao);
-				//verficar escalonamento
-				testeSerialidade (lista_transacao,lista_operacao);
-				testeVisaoEquivalente (lista_transacao);
+				printf("%d ",s);
+				imprimeListaTransacao(lista_transacao);
+				if(testeSerialidade (lista_transacao,lista_operacao)== 1){
+					printf(" NS");
+				}
+				else
+				{
+					printf(" SS");
+				}
+				if (testeVisaoEquivalente (lista_transacao)== 1)
+				{
+					printf(" NV\n");
+				}
+				else
+				{
+					printf("SV\n");
+				}
+				
 				s++;
 				contador=0;
 				commits=0;
@@ -95,9 +107,5 @@ int main(void)
 			}
 		}
 	}
-	printf("\n");
-	//imprimeOperacao(lista_operacao);
-	//imprimeListaTransacao(lista_transacao);
-		
 	return 0;
 }

@@ -18,15 +18,73 @@ Funções relacionadas aos algoritmos de detecção de conflitos de escalonament
 /* Funções Auxiliares */
 void criaArestas(tipoTransacao *t1,tipoTransacao* t2) 
 {
-	printf("id: %d \n", t1->id);
-	printf("id: %d\n", t2->id);
-	printf("\n");
+	//verificar se já aponta (preciso fazer)
+	//printf("aresta de %d para %d \n",t1->id,t2->id);
+	if (t1->id != t2->id)
+	{
+		if (t1->arestas == NULL)
+		{
+			t1->arestas = novaLista(t2);
+		}
+		else
+		{
+			adicionaLista(t1->arestas,t2);
+		}
+	}
+}
+//recebe os ids dos pais e em recursividade procura alguem nos filhos que aponte para o id pai
+int percorreAresta(tipoLista* arestas, int id){
+	if (arestas == NULL)
+	{
+		return 0;
+	}
 
+	tipoTransacao* aux = arestas->item;
+	int achou= 0;
+
+	while (arestas != NULL)
+	{	
+		if (aux->id == id )
+		{
+			return 1;
+		}
+		else
+		{
+			achou = percorreAresta(aux->arestas,id);
+		}
+		
+		arestas= arestas->proximo;
+		if (arestas != NULL)
+		{
+			aux= arestas->item;
+		}	
+	}
+	return achou;
 }
 
+//Recebe a lista com todas as transacoes Pais, e envia para suas arestas filhas seus ids
 int testaCicloGrafo (tipoLista *transacoes) 
 {
-	
+	if (transacoes == NULL)
+	{
+		return 0;
+	}
+
+	tipoTransacao *aux= transacoes->item;
+	int achou=0;
+
+	while (transacoes != NULL)
+	{
+		aux = transacoes->item;
+		achou = percorreAresta(aux->arestas,aux->id);
+		transacoes = transacoes->proximo;
+		if (achou == 1)
+		{
+			return achou;
+		}
+		
+	}
+	return achou;
 }
 
 tipoLista *CriaEscalonamentoSerial(tipoLista *transacoes, int n_transacoes, int n_trocas)
@@ -210,43 +268,38 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 /* Funções Principais */
 int testeSerialidade (tipoLista *transacoes, tipoLista *linhaTempo)
 {
-	tipoOperacao * auxop = linhaTempo->item;
+	tipoLista *auxlista = linhaTempo;
+	tipoOperacao * auxop = auxlista->item;
 	tipoOperacao * anterior = NULL;
 	tipoOperacao * proximo = NULL;
+	int id;
+	int id2;
 
-	while (linhaTempo != NULL)
-	{
-		if (auxop->tipo == 'W')
-		{
-			if (linhaTempo->anterior != NULL)
+//percorre a linha do Tempo procurando um Write, quando encontrado verifica criterios de seriabilidade
+	while (auxlista != NULL)
+	{	
+		if (auxop->tipo == 'W'){
+			id = achaescrita(auxlista,auxop);
+			id2 = achaleitura(auxlista,auxop);
+			if (id != -1)
 			{
-				anterior = linhaTempo->anterior->item;
-				if (anterior->tipo == 'W' ||anterior->tipo == 'R' ){
-					printf("escrita depois de escrita ou leitura \n");
-					criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,anterior->id));
-				}
+				criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,id));
+				//printf("criar aresta de escrita\n");
 			}
-			else if (linhaTempo->proximo != NULL)
+			if (id2 != -1)
 			{
-				proximo = linhaTempo->proximo->item;
-				if (proximo->tipo == 'R')
-				{
-					printf("escrita antes de leitura \n");
-					criaArestas(verificaLista(transacoes,auxop->id),verificaLista(transacoes,proximo->id));
-				}		
-			}	
+				criaArestas(verificaLista(transacoes,id2),verificaLista(transacoes,auxop->id));
+				//printf("criar aresta de leitura \n");
+			}
 		}
-		linhaTempo= linhaTempo->proximo;
-		if (linhaTempo != NULL)
-		{
-			auxop = linhaTempo->item;
+		auxlista = auxlista->proximo;
+		if (auxlista != NULL)
+		{	
+			auxop = auxlista->item;
 		}
-		
 	}
-	imprimeOperacao(linhaTempo);
-
-
-	return 1;
+	
+	return testaCicloGrafo(transacoes);
 }
 
 int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes, tipoLista *operacoes)
@@ -276,22 +329,63 @@ int testeVisaoEquivalente (tipoLista *transacoes, int n_transacoes, tipoLista *o
 	return 0;
 }
 
-int testeescrita(tipoLista* operacoes){
+
+//Criar aresta Ti->Tj para cada w(x) em Ti depois de r(x) em Tj 
+//Criar aresta Ti->Tj para cada w(x) em Ti depois de w(x) em Tj
+int achaescrita(tipoLista* operacoes,tipoOperacao* w){
+	
+	if (operacoes == NULL)
+	{
+		return -1;
+	}
 	
 	tipoOperacao* operacao= operacoes->item;
-	while (operacoes != NULL)
+	tipoLista* listaoperacoes = operacoes;
+
+	while (listaoperacoes != NULL)
 	{
-		if(operacao->tipo = 'W'){
-			return 1;
+		if(operacao->tipo = 'W' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+			return operacao->id;
 		}
-		if (operacoes != NULL)
+		if(operacao->tipo = 'R' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+			return operacao->id;
+		}
+		if (listaoperacoes != NULL)
 		{
-			operacoes=operacoes->proximo;
-			if (operacoes != NULL)
+			listaoperacoes=listaoperacoes->anterior;
+			if (listaoperacoes != NULL)
 			{
-				operacao = operacoes->item;
+				operacao = listaoperacoes->item;
+			}
+			
+		}
+	}
+	return -1;
+}
+
+//Criar aresta Ti->Tj para cada r(x) em Ti depois de w(x) em Tj
+int achaleitura(tipoLista* operacoes,tipoOperacao* w){
+	
+	if (operacoes == NULL)
+	{
+		return -1;
+	}
+	tipoOperacao* operacao= operacoes->item;
+	tipoLista* listaoperacoes = operacoes;
+	while (listaoperacoes != NULL)
+	{
+		if(operacao->tipo = 'R' && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+			return operacao->id;
+		}
+
+		if (listaoperacoes != NULL)
+		{
+			listaoperacoes=listaoperacoes->proximo;
+			if (listaoperacoes != NULL)
+			{
+				operacao = listaoperacoes->item;
 			}
 		}
 	}
-	return 0;
+	return -1;
 }

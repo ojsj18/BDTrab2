@@ -38,23 +38,7 @@ tipoTransacao* novaTransacao(tipoOperacao* operacao) {
 	//tava sem o return
 	return transacao;
 }
-
-tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id) {
-	tipoEscalonamento *escalonamento = (tipoEscalonamento*) malloc(sizeof(tipoEscalonamento));
 	
-	escalonamento->transacoes = novaLista(transacao);
-	//escalonamento->transacoesAtivas = novaLista(transacao);
-	escalonamento->id = id;
-
-	escalonamento->todasOperacoes = novaLista(transacao->operacoes->item);
-
-	tipoLista *aux = transacao->operacoes->proximo;
-	while (aux != NULL) {
-		adicionaLista(aux, aux->item);
-		aux = aux->proximo;
-	}
-}
-
 
 tipoLista* novaLista(void* item) {
 	tipoLista *lista = (tipoLista*) malloc(sizeof(tipoLista));
@@ -88,7 +72,7 @@ void adicionaLista(tipoLista* lista, void* item) {
 void imprimeOperacao(tipoLista *lista){
 
 	tipoOperacao *operacao;
-
+	printf("-----------------------\n");
 	while (lista != NULL)
 	{
 		operacao = (tipoOperacao *) lista->item;
@@ -98,12 +82,13 @@ void imprimeOperacao(tipoLista *lista){
 		printf("%c\n",operacao->atributo);
 		lista=lista->proximo;
 	}
+	printf("-----------------------\n");
 }
 void imprimeTransacao(tipoTransacao *transacao){
 
 	tipoLista* operacao=transacao->operacoes;
-	printf(" Transação: %d \n",transacao->id);
-	imprimeOperacao(operacao);
+	printf("%d,",transacao->id);
+	//imprimeOperacao(operacao);
 }
 
 void imprimeListaTransacao(tipoLista *lista){
@@ -113,7 +98,8 @@ void imprimeListaTransacao(tipoLista *lista){
 	while (lista != NULL)
 	{
 		transacao = (tipoTransacao *) lista->item;
-		imprimeTransacao(transacao);
+		printf("%d,",transacao->id);
+		//imprimeTransacao(transacao);
 		lista=lista->proximo;
 	}
 
@@ -123,14 +109,15 @@ void imprimeListaTransacao(tipoLista *lista){
 tipoTransacao* verificaLista(tipoLista* lista, int id){
 
 	tipoTransacao* aux;
+	tipoLista* auxlista = lista;
 
-	while (lista != NULL)
+	while (auxlista != NULL)
 	{
-		aux= (tipoTransacao*)lista->item;
+		aux= (tipoTransacao*)auxlista->item;
 		if(aux->id==id){
-			return lista->item;
+			return auxlista->item;
 		}
-		lista=lista->proximo;
+		auxlista=auxlista->proximo;
 	}
 	return NULL;
 }
