@@ -88,7 +88,7 @@ void adicionaLista(tipoLista* lista, void* item) {
 void imprimeOperacao(tipoLista *lista){
 
 	tipoOperacao *operacao;
-
+	printf("-----------------------\n");
 	while (lista != NULL)
 	{
 		operacao = (tipoOperacao *) lista->item;
@@ -98,6 +98,7 @@ void imprimeOperacao(tipoLista *lista){
 		printf("%c\n",operacao->atributo);
 		lista=lista->proximo;
 	}
+	printf("-----------------------\n");
 }
 void imprimeTransacao(tipoTransacao *transacao){
 
@@ -123,14 +124,15 @@ void imprimeListaTransacao(tipoLista *lista){
 tipoTransacao* verificaLista(tipoLista* lista, int id){
 
 	tipoTransacao* aux;
+	tipoLista* auxlista = lista;
 
-	while (lista != NULL)
+	while (auxlista != NULL)
 	{
-		aux= (tipoTransacao*)lista->item;
+		aux= (tipoTransacao*)auxlista->item;
 		if(aux->id==id){
-			return lista->item;
+			return auxlista->item;
 		}
-		lista=lista->proximo;
+		auxlista=auxlista->proximo;
 	}
 	return NULL;
 }

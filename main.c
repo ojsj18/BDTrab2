@@ -28,6 +28,7 @@ int main(void)
 	int contador =0;
 
 	scanf("%d %d %c %c",&tempoChegada,&id,&tipo,&atributo);
+	//printf("%d %d %c %c \n",tempoChegada,id,tipo,atributo);
 
 	tipoOperacao *operacao= novaOperacao(id, tempoChegada, tipo, atributo);
 	tipoLista *lista_operacao = novaLista(operacao);
@@ -84,8 +85,12 @@ int main(void)
 			if(commits==contador){
 				printf("escalonamento %d\n \n",s);
 				//imprimeListaTransacao(lista_transacao);
+				//imprimeOperacao(lista_operacao);
 				//verficar escalonamento
-				testeSerialidade (lista_transacao,lista_operacao);
+				if(testeSerialidade (lista_transacao,lista_operacao)== 1){
+					printf("achei \n");
+					printf("\n");
+				}
 				testeVisaoEquivalente (lista_transacao);
 				s++;
 				contador=0;
@@ -95,7 +100,7 @@ int main(void)
 			}
 		}
 	}
-	printf("\n");
+	
 	//imprimeOperacao(lista_operacao);
 	//imprimeListaTransacao(lista_transacao);
 		
