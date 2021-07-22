@@ -134,3 +134,24 @@ tipoTransacao* verificaLista(tipoLista* lista, int id){
 	}
 	return NULL;
 }
+
+//Faz a troca a ordem apenas dos itens de 2 elementos de uma lista
+void trocaItemLista(tipoLista *elemento1, tipoLista *elemento2) {
+	void *aux;
+	aux = elemento1->item;
+	elemento1->item = elemento2->item;
+	elemento2->item = aux;
+}
+
+tipoLista *copiaLista(tipoLista *original) {
+	tipoLista *aux = original;
+
+	tipoLista *copia = novaLista(aux->item);
+
+	while (aux->proximo != NULL) {
+		aux = aux->proximo;
+		adicionaLista(copia, aux->item);
+	}
+
+	return copia;
+}
