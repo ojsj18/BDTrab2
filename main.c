@@ -82,20 +82,20 @@ int main(void)
 			if(commits==contador){
 				printf("%d ",s);
 				imprimeListaTransacao(lista_transacao);
-				if(testeSerialidade (lista_transacao,lista_operacao)== 1){
+				if(testeSerialidade (lista_transacao,lista_operacao)){
 					printf(" NS");
 				}
 				else
 				{
 					printf(" SS");
 				}
-				if (testeVisaoEquivalente (lista_transacao, contador, lista_operacao)== 1)
+				if (testeVisaoEquivalente (lista_transacao, contador, lista_operacao))
 				{
-					printf(" NV\n");
+					printf(" SV\n");
 				}
 				else
 				{
-					printf(" SV\n");
+					printf(" NV\n");
 				}
 				
 				s++;

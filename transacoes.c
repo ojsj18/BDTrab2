@@ -125,7 +125,7 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 
 	tipoLista *aux_serial;
 	tipoLista *aux_transacao;
-	tipoLista *aux_operacoes = operacoes;
+	tipoLista *aux_operacoes;
 	tipoLista *percorredor;
 	tipoLista *operacoes_serial = NULL;
 
@@ -156,6 +156,8 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 		aux_serial = aux_serial->proximo;
 	}
 
+	aux_operacoes = operacoes;
+	
 	// Percorre o escalonamento original para verificar leituras e escritas
 	while (aux_operacoes != NULL)
 	{
@@ -271,8 +273,9 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 					{
 						if (percorredor_op->id == operacao->id)
 							break;
-						else
+						else {
 							return 0; //descobriu que o último não é último em s-linha		
+						}
 					}
 
 					percorredor = percorredor->anterior;
@@ -281,7 +284,6 @@ int comparaVisaoEquivalente(tipoLista *operacoes, tipoLista *serial)
 		}
 		aux_operacoes = aux_operacoes->proximo;
 	}
-
 	return 1;
 }
 
@@ -359,10 +361,10 @@ int achaescrita(tipoLista* operacoes,tipoOperacao* w){
 
 	while (listaoperacoes != NULL)
 	{
-		if((operacao->tipo = 'W') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo == 'W') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
-		if((operacao->tipo = 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo == 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
 		if (listaoperacoes != NULL)
@@ -389,7 +391,7 @@ int achaleitura(tipoLista* operacoes,tipoOperacao* w){
 	tipoLista* listaoperacoes = operacoes;
 	while (listaoperacoes != NULL)
 	{
-		if((operacao->tipo = 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
+		if((operacao->tipo == 'R') && (operacao->atributo == w->atributo) && (operacao->id != w->id)){
 			return operacao->id;
 		}
 
