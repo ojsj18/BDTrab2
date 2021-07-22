@@ -38,23 +38,7 @@ tipoTransacao* novaTransacao(tipoOperacao* operacao) {
 	//tava sem o return
 	return transacao;
 }
-
-tipoEscalonamento* novoEscalonamento(tipoTransacao* transacao, int id) {
-	tipoEscalonamento *escalonamento = (tipoEscalonamento*) malloc(sizeof(tipoEscalonamento));
 	
-	escalonamento->transacoes = novaLista(transacao);
-	//escalonamento->transacoesAtivas = novaLista(transacao);
-	escalonamento->id = id;
-
-	escalonamento->todasOperacoes = novaLista(transacao->operacoes->item);
-
-	tipoLista *aux = transacao->operacoes->proximo;
-	while (aux != NULL) {
-		adicionaLista(aux, aux->item);
-		aux = aux->proximo;
-	}
-}
-
 
 tipoLista* novaLista(void* item) {
 	tipoLista *lista = (tipoLista*) malloc(sizeof(tipoLista));

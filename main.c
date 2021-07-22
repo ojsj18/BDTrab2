@@ -28,7 +28,6 @@ int main(void)
 	int contador =0;
 
 	scanf("%d %d %c %c",&tempoChegada,&id,&tipo,&atributo);
-	//printf("%d %d %c %c \n",tempoChegada,id,tipo,atributo);
 
 	tipoOperacao *operacao= novaOperacao(id, tempoChegada, tipo, atributo);
 	tipoLista *lista_operacao = novaLista(operacao);
@@ -38,8 +37,6 @@ int main(void)
 	tipoLista *lista_transacao = novaLista(transacao);
 	tipoTransacao *aux= lista_transacao->item;
 
-	tipoEscalonamento *escalonamento = novoEscalonamento(transacao,s);
-	tipoLista *lista_escalonamento = novaLista(escalonamento);
 	contador++;
 	
 /* COLOCANDO NUMA LISTA DE TRANSACAO  */
@@ -110,9 +107,5 @@ int main(void)
 			}
 		}
 	}
-	
-	//imprimeOperacao(lista_operacao);
-	//imprimeListaTransacao(lista_transacao);
-		
 	return 0;
 }
